@@ -1,0 +1,2 @@
+b) It is possible to print Y before it is assigned because the thread waits until it has a value. It's useful for concurrent programming. Y = X assignes
+Y to the value of X.
