@@ -9,14 +9,14 @@ define
     end
 
     fun {LexemeToRecord Lexeme}
-        case Lexeme of "+" then
-            operator(type:plus)
-        [] "-" then
-            operator(type:minus)
-        [] "/" then
-            operator(type:divide)
-        [] "*" then
-            operator(type:multiply)
+        case Lexeme of "+" then operator(type:plus)
+        [] "-" then operator(type:minus)
+        [] "/" then operator(type:divide)
+        [] "*" then operator(type:multiply)
+        [] "p" then operator(type:print)
+        [] "d" then operator(type:duplicate)
+        [] "i" then operator(type:negate)
+        [] "^" then operator(type:inverse)
         else
             number({String.toInt Lexeme})
         end
@@ -26,24 +26,51 @@ define
         {Map Lexems LexemeToRecord}
     end
 
-    proc {Interpret Tokens}
-        case Tokens of number(First)|number(Second)|operator(type:plus)|Tail then
-            {Interpret number(First + Second) | Tail}
-        [] number(First)|number(Second)|operator(type:minus)|Tail then
-            {Interpret number(First - Second) | Tail}
-        [] number(First)|number(Second)|operator(type:divide)|Tail then
-            {Interpret number(First / Second) | Tail}
-        [] number(First)|number(Second)|operator(type:multiply)|Tail then
-            {Interpret number(First * Second) | Tail}
-        [] number(First)|number(Second)|number(Third)|Tail then
-            {Interpret number(First) | {Interpret number(Second) | number(Third) | Tail}}
-        else
-            {System.show Tokens}
+    fun {InterpretWithStack Tokens Stack}
+        local
+            NewTokens
+            NewStack
+        in
+            case Tokens of Head | Tail then
+                NewStack = Head | Stack
+                NewTokens = Tail
+            else
+                NewStack = Stack
+                NewTokens = Tokens
+            end
+            case NewStack of operator(type:plus) | number(First) | number(Second) | Tail then {InterpretWithStack NewTokens number(First + Second) | Tail}
+
+            [] operator(type:minus) | number(First) | number(Second) | Tail then {InterpretWithStack NewTokens number(First - Second) | Tail}
+
+            [] operator(type:divide) | number(First) | number(Second) | Tail then {InterpretWithStack NewTokens number(First / Second) | Tail}
+
+            [] operator(type:multiply) | number(First) | number(Second) | Tail then {InterpretWithStack NewTokens number(First * Second) | Tail}
+
+            [] operator(type:negate) | number(First) | Tail then {InterpretWithStack NewTokens number(-First) | Tail}
+
+            [] operator(type:inverse) | number(First) | Tail then {InterpretWithStack NewTokens number(1.0/First) | Tail}
+
+            [] operator(type:duplicate) | number(First) | Tail then {InterpretWithStack NewTokens number(First) | number(First) | Tail}
+
+            [] operator(type:print) | Tail then
+                {System.show Tail}
+                {InterpretWithStack NewTokens Tail}
+
+            else
+                if {Length NewTokens} == 0 then NewStack
+                else {InterpretWithStack NewTokens NewStack}
+                end
+            end
         end
+
+    end
+
+    fun {Interpret Tokens}
+        {InterpretWithStack Tokens nil}
     end
 
     {Browse {Lex "1 2 + 3 *" }}
     {Browse {Tokenize {Lex "1 2 + 3 *"}}}
-    {Interpret{Tokenize {Lex "1 2 3 +"}}}
+    {Browse {Interpret{Tokenize {Lex "1 2 3 p + d"}}}}
 
 end

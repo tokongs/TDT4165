@@ -1,0 +1,6 @@
+Task2)
+The mdc works by applying the rules of RPN on a valid input. It crate lexems from the input string
+and tokens from the lexemes. It then applies the correct operations to the tokens. To do this we take out the foremost
+element of the token list and pushes it onto a stack. It does this until we get an operator. When we get an operator
+we apply the operator to the two topmost elements of the stack and push the result back again. This is done until there
+are no more operands in the token list or the stack. 
