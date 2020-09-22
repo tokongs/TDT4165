@@ -18,7 +18,7 @@ define
         [] "i" then operator(type:negate)
         [] "^" then operator(type:inverse)
         else
-            number({String.toInt Lexeme})
+            number({String.toFloat Lexeme})
         end
     end
 

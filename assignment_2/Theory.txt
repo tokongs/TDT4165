@@ -3,4 +3,46 @@ The mdc works by applying the rules of RPN on a valid input. It crate lexems fro
 and tokens from the lexemes. It then applies the correct operations to the tokens. To do this we take out the foremost
 element of the token list and pushes it onto a stack. It does this until we get an operator. When we get an operator
 we apply the operator to the two topmost elements of the stack and push the result back again. This is done until there
-are no more operands in the token list or the stack. 
+are no more operands in the token list or the stack.
+
+Task3)
+Converting from postfix to infix works by poping from the list of token and pushing to the expressions stack.
+If the token you pop is a number just push it directly to the expression stack.
+It the token is an operand o1 you get the two topmost expressions e1 and e2 from the expression stack,
+you then push (e1 o1 e2) back to the expression stack. And repeat until the token list is exhauseted.
+
+Task4)
+a)
+Grammar for the number lexems:
+Non-Terminals: [S, F]
+Terminals: [1-9]
+Start symbol: S
+Productions: S -> aA, A -> aA | e (a is one of the terminals and e is epsilon)
+
+Grammar for the operator lexems:
+Non-Terminals: [S]
+Terminals: [+, -, /, *, i, d, ^, p ]
+Start symbol: S
+Productions: S -> a | e (a is one of the terminals)
+
+b)
+S -> expr
+
+expr -> (term + term)
+    | (term - term)
+    | (term / term)
+    | (term * term)
+
+term -> expr
+    | NUMBER
+
+The grammar is disambiguous because there can only be one parse tree for a given string.
+
+c)
+The difference between context-sensitive and context-free grammars is the form of the productions.
+The context-free grammars have productions where the left-hand side is a single non-terminal. While the
+context-sensitive grammars can have multiple a non-terminal surrounded by some other terminals or non-terminals as context.
+
+d)
+This is because oz is strongly types. Which means it can't implicilty convert datatypes. So it cannot implicilty convert int to float,
+or float to int. This is usful to help. prevent making mistakes
