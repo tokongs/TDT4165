@@ -29,6 +29,15 @@ define
         end
     end
 
+    fun {SumTailRec List}
+        case List of First | Second | Tail then
+            {SumTailRec First + Second | Tail}
+        [] Head | Tail then Head
+        else
+            0
+        end
+    end
+
     fun {RightFold List Op U}
         case List of Head | Tail then
             {Op Head {RightFold Tail Op U}}
@@ -78,6 +87,9 @@ define
     {System.show {LazyNumberGenerator 0}.1}
     {System.show {{LazyNumberGenerator 0}.2}.1}
     {System.show {{{{{{LazyNumberGenerator 0}.2}.2}.2}.2}.2}.1}
+
+    {System.show {SumTailRec [1 2 3 4]}}
+    {Application.exit 0}
 end
 
 /*
@@ -100,4 +112,11 @@ Task 4b)
 Every time LazyNumberGenerator is executed it generates a list of two elements.
 The first is the start value, the next is an anonymous function which calls LazyNumberGenerator
 with StartValue + 1 
+
+Task 6b)
+The benefit og tail recursion in Oz is that we reduce the stack depth which reduces the memory
+footprint of out execution. 
+
+Task 6c)
+No, not all compiler will do the optimization needed to gain the benefits of tail recursion. 
  */
