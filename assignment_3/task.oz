@@ -37,6 +37,10 @@ define
         end
     end
 
+    fun {Quadratic A B C} 
+        fun {$ X} A*X*X + B*X + C end
+    end
+
     local 
         RealSol
         X1
@@ -64,6 +68,8 @@ define
     {System.show {RightFold [1 2 3 4] fun {$ X Y} X + Y end 0}}
     % Length fold
     {System.show {RightFold [1 2 3 4] fun {$ X Y} 1 + Y end 0}}
+
+    {System.show{{Quadratic 3 2 1}2}}
 end
 
 /*
