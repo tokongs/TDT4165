@@ -21,6 +21,14 @@ define
         end
     end
 
+    fun {Sum List}
+        case List of Head|Tail then
+            Head  + {Sum Tail }
+        else
+            0
+        end
+    end
+
     local 
         RealSol
         X1
@@ -41,4 +49,17 @@ define
         {System.show X1}
         {System.show X2}
     end
+
+    {System.show {Sum [1 2 3 4]}}
 end
+
+/*
+Task 1b)
+Procedual abstractions are useful because it means we don't have to worry about how 
+a procedure does something, just what it does. It also enables us to use higher level programming.
+
+Task 1c)
+The difference between a procedure and a functino is that a procedure does not return a value.
+
+
+ */
