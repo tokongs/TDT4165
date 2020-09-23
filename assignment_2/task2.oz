@@ -46,7 +46,7 @@ define
 
             [] operator(type:multiply) | number(First) | number(Second) | Tail then {InterpretWithStack NewTokens number(First * Second) | Tail}
 
-            [] operator(type:negate) | number(First) | Tail then {InterpretWithStack NewTokens number(-First) | Tail}
+            [] operator(type:negate) | number(First) | Tail then {InterpretWithStack NewTokens number(~First) | Tail}
 
             [] operator(type:inverse) | number(First) | Tail then {InterpretWithStack NewTokens number(1.0/First) | Tail}
 
