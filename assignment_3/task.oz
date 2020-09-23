@@ -41,6 +41,10 @@ define
         fun {$ X} A*X*X + B*X + C end
     end
 
+    fun {LazyNumberGenerator StartValue}
+        StartValue | fun {$} {LazyNumberGenerator StartValue + 1} end
+    end
+
     local 
         RealSol
         X1
@@ -70,6 +74,10 @@ define
     {System.show {RightFold [1 2 3 4] fun {$ X Y} 1 + Y end 0}}
 
     {System.show{{Quadratic 3 2 1}2}}
+
+    {System.show {LazyNumberGenerator 0}.1}
+    {System.show {{LazyNumberGenerator 0}.2}.1}
+    {System.show {{{{{{LazyNumberGenerator 0}.2}.2}.2}.2}.2}.1}
 end
 
 /*
@@ -87,4 +95,9 @@ would be different because subtraction is not an associative operation.
 Task 3e)
 1 would be a good value for U when trying to find the product because anything multiplied by 1 
 would not change the result. 
+
+Task 4b)
+Every time LazyNumberGenerator is executed it generates a list of two elements.
+The first is the start value, the next is an anonymous function which calls LazyNumberGenerator
+with StartValue + 1 
  */
