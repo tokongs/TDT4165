@@ -29,6 +29,14 @@ define
         end
     end
 
+    fun {RightFold List Op U}
+        case List of Head | Tail then
+            {Op Head {RightFold Tail Op U}}
+        else
+            U
+        end
+    end
+
     local 
         RealSol
         X1
@@ -51,6 +59,11 @@ define
     end
 
     {System.show {Sum [1 2 3 4]}}
+
+    % Sum fold
+    {System.show {RightFold [1 2 3 4] fun {$ X Y} X + Y end 0}}
+    % Length fold
+    {System.show {RightFold [1 2 3 4] fun {$ X Y} 1 + Y end 0}}
 end
 
 /*
@@ -61,5 +74,11 @@ a procedure does something, just what it does. It also enables us to use higher 
 Task 1c)
 The difference between a procedure and a functino is that a procedure does not return a value.
 
+Task 3d)
+They would give the same result because addition is an associative operation. While subtractions 
+would be different because subtraction is not an associative operation. 
 
+Task 3e)
+1 would be a good value for U when trying to find the product because anything multiplied by 1 
+would not change the result. 
  */
